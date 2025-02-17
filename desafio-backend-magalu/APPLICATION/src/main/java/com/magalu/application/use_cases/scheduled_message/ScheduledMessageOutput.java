@@ -1,19 +1,21 @@
 package com.magalu.application.use_cases.scheduled_message;
 
-import com.magalu.application.use_cases.utils.status_output.StatusOutput;
-import com.magalu.application.use_cases.Output;
+import com.magalu.application.use_cases.utils.output.StatusOutput;
+import com.magalu.application.use_cases.utils.output.Output;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.validation.NotificationInterface;
 
-public class ScheduledMessageOutput extends Output<StatusOutput> {
+public class ScheduledMessageOutput extends Output<ScheduledMessage> {
 
-    private ScheduledMessageOutput(StatusOutput output, NotificationInterface notification) {
-        super(output, notification);
+    private ScheduledMessageOutput(ScheduledMessage entity, StatusOutput output, NotificationInterface notification) {
+        super(entity, output, notification);
     }
 
     public static  ScheduledMessageOutput createScheduledMessageOutput(
+            ScheduledMessage entity,
             StatusOutput output,
             NotificationInterface notification){
-        return new ScheduledMessageOutput(output, notification);
+        return new ScheduledMessageOutput(entity, output, notification);
     }
 
 }

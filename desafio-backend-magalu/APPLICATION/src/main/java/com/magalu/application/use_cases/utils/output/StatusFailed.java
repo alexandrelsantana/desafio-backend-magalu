@@ -1,4 +1,4 @@
-package com.magalu.application.use_cases.utils.status_output;
+package com.magalu.application.use_cases.utils.output;
 
 public class StatusFailed extends StatusOutput{
     private final static String FAILED = "FAILED";

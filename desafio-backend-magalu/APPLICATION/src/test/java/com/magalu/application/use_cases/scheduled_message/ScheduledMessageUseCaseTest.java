@@ -1,7 +1,7 @@
 package com.magalu.application.use_cases.scheduled_message;
 
-import com.magalu.application.use_cases.utils.status_output.StatusFailed;
-import com.magalu.application.use_cases.utils.status_output.StatusSuccess;
+import com.magalu.application.use_cases.utils.output.StatusFailed;
+import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.ValueObject.message.MessageGateway;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
@@ -35,11 +35,11 @@ class ScheduledMessageUseCaseTest {
 
         var output = useCase.execute(input);
 
-        Assertions.assertInstanceOf(StatusSuccess.class, output.getOutput());
+        Assertions.assertInstanceOf(StatusSuccess.class, output.getStatusOutput());
         verify(scheduledMessageGateway, times(2)).save(any(ScheduledMessage.class));
 
         assertNotNull(output);
-        assertInstanceOf(StatusSuccess.class, output.getOutput());
+        assertInstanceOf(StatusSuccess.class, output.getStatusOutput());
     }
 
     @Test
@@ -61,7 +61,7 @@ class ScheduledMessageUseCaseTest {
         var output = useCase.execute(input);
 
         assertNotNull(output);
-        Assertions.assertInstanceOf(StatusFailed.class, output.getOutput());
+        Assertions.assertInstanceOf(StatusFailed.class, output.getStatusOutput());
         Assertions.assertEquals("Field 'to' is empty", output.getNotification().getErrors().get(0).getDescription());
         Assertions.assertEquals("Field 'scheduledTime' is empty", output.getNotification().getErrors().get(1).getDescription());
         verify(scheduledMessageGateway, times(0)).save(any(ScheduledMessage.class));

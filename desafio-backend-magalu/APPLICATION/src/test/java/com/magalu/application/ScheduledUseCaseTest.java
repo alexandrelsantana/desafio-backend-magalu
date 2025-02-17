@@ -3,8 +3,8 @@ package com.magalu.application;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageInput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageOutput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCase;
-import com.magalu.application.use_cases.utils.status_output.StatusFailed;
-import com.magalu.application.use_cases.utils.status_output.StatusSuccess;
+import com.magalu.application.use_cases.utils.output.StatusFailed;
+import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.ValueObject.message.MessageGateway;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
@@ -34,7 +34,7 @@ class ScheduledUseCaseTest {
 
     @Test
     @DisplayName("givenValidParameters_whenCallSchedulerUseCase_thenInstantiateUseCase")
-    void execute() {
+    void executeSuccess() {
 
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String MESSAGE = "Message";
@@ -48,7 +48,7 @@ class ScheduledUseCaseTest {
         ScheduledMessageOutput output = useCase.execute(input);
 
         Assertions.assertNotNull(output);
-        Assertions.assertInstanceOf(StatusSuccess.class, output.getOutput());
+        Assertions.assertInstanceOf(StatusSuccess.class, output.getStatusOutput());
 
         verify(scheduledMessageGateway, times(2)).save(any(ScheduledMessage.class));
         verify(messageGateway, never()).send(any(Message.class));
@@ -57,7 +57,7 @@ class ScheduledUseCaseTest {
 
     @Test
     @DisplayName("givenInvalidParameters_whenCallSchedulerUseCase_thenReturnOutputError")
-    void execute2() {
+    void executeFailed() {
 
         final LocalDateTime scheduledTime = null;
         final String MESSAGE = "Message";
@@ -72,7 +72,7 @@ class ScheduledUseCaseTest {
         ScheduledMessageOutput output = useCase.execute(input);
 
         Assertions.assertNotNull(output);
-        Assertions.assertInstanceOf(StatusFailed.class, output.getOutput());
+        Assertions.assertInstanceOf(StatusFailed.class, output.getStatusOutput());
 
         Assertions.assertEquals(
                 "Field 'to' is empty",

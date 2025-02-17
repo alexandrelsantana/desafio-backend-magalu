@@ -1,7 +1,7 @@
 package com.magalu.application.use_cases.scheduled_message;
 
-import com.magalu.application.use_cases.utils.status_output.StatusFailed;
-import com.magalu.application.use_cases.utils.status_output.StatusSuccess;
+import com.magalu.application.use_cases.utils.output.StatusFailed;
+import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.application.use_cases.UseCase;
 import com.magalu.domain.ValueObject.message.MessageGateway;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
@@ -44,11 +44,11 @@ public class ScheduledMessageUseCase extends UseCase<ScheduledMessageInput> {
         hasError(() -> saveScheduledMessageInDatabase(scheduledMessage));
         hasError(() -> createScheduledMessage(scheduledMessage, () -> sendMessage(scheduledMessage)));
 
-        return notification.hasError() ? createOutputFailed() : createOutputSuccess();
+        return notification.hasError() ? createOutputFailed(scheduledMessage) : createOutputSuccess(scheduledMessage);
     }
 
     /**
-     * verifica se o status  ainda é diferente de cancelado antes de executar a action.
+     * Verifica se há algum erro em notification. Se houver, não executa a action.
      */
     private void hasError(Runnable action){
         if (!notification.hasError()){
@@ -106,15 +106,17 @@ public class ScheduledMessageUseCase extends UseCase<ScheduledMessageInput> {
         }
     }
 
-    private ScheduledMessageOutput createOutputFailed(){
+    private ScheduledMessageOutput createOutputFailed(ScheduledMessage scheduledMessage){
         return ScheduledMessageOutput.createScheduledMessageOutput(
+                scheduledMessage,
                 StatusFailed.create(),
                 notification
         );
     }
 
-    private ScheduledMessageOutput createOutputSuccess() {
+    private ScheduledMessageOutput createOutputSuccess(ScheduledMessage scheduledMessage) {
         return ScheduledMessageOutput.createScheduledMessageOutput(
+                scheduledMessage,
                 StatusSuccess.create(),
                 notification
         );
