@@ -11,7 +11,7 @@ class ScheduledMessageTest {
 
     @Test
     @DisplayName("givenValidParameters_whenCallNewEntity_thenInstantiateObject")
-    void create() {
+    void createSuccess() {
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String message = "Message";
         final String to = "test@test.com";
@@ -40,7 +40,7 @@ class ScheduledMessageTest {
 
     @Test
     @DisplayName("givenInvalidScheduledTimeFormat_whenValidateEntity_thenNotificationError")
-    void create2() {
+    void createError() {
         final LocalDateTime scheduledTime = null;
         final String message = "Message";
         final String to = null;
