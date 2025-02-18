@@ -11,7 +11,7 @@ public class ScheduledMessageOutput extends Output<ScheduledMessage> {
         super(entity, output, notification);
     }
 
-    public static  ScheduledMessageOutput createScheduledMessageOutput(
+    public static  ScheduledMessageOutput create(
             ScheduledMessage entity,
             StatusOutput output,
             NotificationInterface notification){

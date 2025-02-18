@@ -9,7 +9,7 @@ import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedul
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
 import com.magalu.domain.validation.Notification;
 
-public class CancelScheduledMessageUseCase extends UseCase<CancelScheduledMessageInput> {
+public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCaseAbstract {
     final ScheduledMessageGateway scheduledMessageGateway;
     private Notification notification;
 

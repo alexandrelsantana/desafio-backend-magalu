@@ -2,7 +2,6 @@ package com.magalu.application.use_cases.scheduled_message;
 
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
-import com.magalu.application.use_cases.UseCase;
 import com.magalu.domain.ValueObject.message.MessageGateway;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
@@ -17,7 +16,7 @@ import java.util.Objects;
  * - criar registro na base de dados da mensagem agendada; e
  * - agendar o envio da mensagem.
  */
-public class ScheduledMessageUseCase extends UseCase<ScheduledMessageInput> {
+public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
 
     private final ScheduledMessageGateway scheduledMessageGateway;
     private final MessageGateway messageGateway;
@@ -107,7 +106,7 @@ public class ScheduledMessageUseCase extends UseCase<ScheduledMessageInput> {
     }
 
     private ScheduledMessageOutput createOutputFailed(ScheduledMessage scheduledMessage){
-        return ScheduledMessageOutput.createScheduledMessageOutput(
+        return ScheduledMessageOutput.create(
                 scheduledMessage,
                 StatusFailed.create(),
                 notification
@@ -115,7 +114,7 @@ public class ScheduledMessageUseCase extends UseCase<ScheduledMessageInput> {
     }
 
     private ScheduledMessageOutput createOutputSuccess(ScheduledMessage scheduledMessage) {
-        return ScheduledMessageOutput.createScheduledMessageOutput(
+        return ScheduledMessageOutput.create(
                 scheduledMessage,
                 StatusSuccess.create(),
                 notification
