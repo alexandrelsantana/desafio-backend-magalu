@@ -1,5 +1,5 @@
 package com.magalu.domain.ValueObject.message;
 
-public interface MessageGateway {
+public interface MessageGatewayInterface {
     void send(Message message);
 }

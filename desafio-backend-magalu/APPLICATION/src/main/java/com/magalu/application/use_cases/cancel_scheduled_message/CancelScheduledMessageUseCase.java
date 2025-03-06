@@ -1,19 +1,19 @@
 package com.magalu.application.use_cases.cancel_scheduled_message;
 
-import com.magalu.application.use_cases.UseCase;
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
 import com.magalu.domain.validation.Notification;
 
 public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCaseAbstract {
-    final ScheduledMessageGateway scheduledMessageGateway;
+
+    final ScheduledMessageGatewayInterface scheduledMessageGateway;
     private Notification notification;
 
-    public CancelScheduledMessageUseCase(ScheduledMessageGateway scheduledMessageGateway) {
+    public CancelScheduledMessageUseCase(ScheduledMessageGatewayInterface scheduledMessageGateway) {
         this.scheduledMessageGateway =  scheduledMessageGateway;
     }
 

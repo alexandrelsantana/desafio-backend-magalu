@@ -2,10 +2,11 @@ package com.magalu.application.use_cases.scheduled_message;
 
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
-import com.magalu.domain.ValueObject.message.MessageGateway;
+import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
+import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerFailed;
 import com.magalu.domain.validation.Notification;
 
 import java.util.Objects;
@@ -18,13 +19,13 @@ import java.util.Objects;
  */
 public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
 
-    private final ScheduledMessageGateway scheduledMessageGateway;
-    private final MessageGateway messageGateway;
+    private final ScheduledMessageGatewayInterface scheduledMessageGateway;
+    private final MessageGatewayInterface messageGateway;
     private Notification notification;
 
     public ScheduledMessageUseCase(
-            final ScheduledMessageGateway scheduledMessageGateway,
-            final MessageGateway messageGateway) {
+            final ScheduledMessageGatewayInterface scheduledMessageGateway,
+            final MessageGatewayInterface messageGateway) {
         this.scheduledMessageGateway = Objects.requireNonNull(scheduledMessageGateway);
         this.messageGateway =  Objects.requireNonNull(messageGateway);
     }
@@ -39,7 +40,6 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
                 input.to(),
                 notification
         );
-
         hasError(() -> saveScheduledMessageInDatabase(scheduledMessage));
         hasError(() -> createScheduledMessage(scheduledMessage, () -> sendMessage(scheduledMessage)));
 
@@ -106,6 +106,7 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
     }
 
     private ScheduledMessageOutput createOutputFailed(ScheduledMessage scheduledMessage){
+        scheduledMessage.changeStatus(StatusSchedulerFailed.create());
         return ScheduledMessageOutput.create(
                 scheduledMessage,
                 StatusFailed.create(),

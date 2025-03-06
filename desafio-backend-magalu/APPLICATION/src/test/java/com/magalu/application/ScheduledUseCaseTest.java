@@ -6,9 +6,9 @@ import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCas
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.ValueObject.message.Message;
-import com.magalu.domain.ValueObject.message.MessageGateway;
+import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,9 @@ class ScheduledUseCaseTest {
     @InjectMocks
     private ScheduledMessageUseCase useCase;
     @Mock
-    private MessageGateway messageGateway;
+    private MessageGatewayInterface messageGateway;
     @Mock
-    private ScheduledMessageGateway scheduledMessageGateway;
+    private ScheduledMessageGatewayInterface scheduledMessageGateway;
 
     @Test
     @DisplayName("givenValidParameters_whenCallSchedulerUseCase_thenInstantiateUseCase")

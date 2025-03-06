@@ -3,7 +3,7 @@ package com.magalu.application.use_cases.cancel_scheduled_message;
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCompleted;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
@@ -22,7 +22,7 @@ class CancelScheduledMessageUseCaseTest {
     @Test
     @DisplayName("givenValidParameters_whenCancelScheduledMessage_cancelSendMessage")
     public void executeSuccess(){
-        ScheduledMessageGateway scheduledMessageGateway = mock(ScheduledMessageGateway.class);
+        ScheduledMessageGatewayInterface scheduledMessageGateway = mock(ScheduledMessageGatewayInterface.class);
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String message = "Message test";
         final String to = "test@test.com";
@@ -52,7 +52,7 @@ class CancelScheduledMessageUseCaseTest {
     @Test
     @DisplayName("givenIvValidParameters_whenCancelScheduledMessage_thenDoNotCancelSendMessage")
     public void executeFailed(){
-        ScheduledMessageGateway scheduledMessageGateway = mock(ScheduledMessageGateway.class);
+        ScheduledMessageGatewayInterface scheduledMessageGateway = mock(ScheduledMessageGatewayInterface.class);
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String message = "Message test";
         final String to = "test@test.com";
@@ -84,7 +84,7 @@ class CancelScheduledMessageUseCaseTest {
     @Test
     @DisplayName("givenIvValidParameters_whenCancelScheduledMessage_thenDoNotCancelSendMessage")
     public void executeFailed2(){
-        ScheduledMessageGateway scheduledMessageGateway = mock(ScheduledMessageGateway.class);
+        ScheduledMessageGatewayInterface scheduledMessageGateway = mock(ScheduledMessageGatewayInterface.class);
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String message = "Message test";
         final String to = "test@test.com";

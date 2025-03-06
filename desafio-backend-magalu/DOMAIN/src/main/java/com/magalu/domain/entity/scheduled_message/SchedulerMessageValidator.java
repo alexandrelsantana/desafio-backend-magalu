@@ -13,10 +13,21 @@ public class SchedulerMessageValidator extends Validator<ScheduledMessage> {
     @Override
     public void validate(ScheduledMessage entity) {
         final String to = entity.getMessage().getTo();
+        final String message = entity.getMessage().getTo();
+
+        //todo adicionar validações de data no futuro, data vazia, ...
+
         if(to == null || to.isEmpty()){
             notification.append(
                     "Field 'to' is empty",
                     "The 'to' field is required."
+            );
+        }
+
+        if(to == null || message.isEmpty()){
+            notification.append(
+                    "Field 'message' is empty",
+                    "The 'message' field is required."
             );
         }
 

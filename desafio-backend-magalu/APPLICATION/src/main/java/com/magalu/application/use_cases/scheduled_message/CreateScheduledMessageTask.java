@@ -2,15 +2,15 @@ package com.magalu.application.use_cases.scheduled_message;
 
 import com.magalu.application.use_cases.utils.scheduler.Scheduler;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
 
 import java.util.concurrent.ScheduledFuture;
 
 public class CreateScheduledMessageTask extends Scheduler {
-    private final ScheduledMessageGateway scheduledMessageGateway;
+    private final ScheduledMessageGatewayInterface scheduledMessageGateway;
 
-    public CreateScheduledMessageTask(ScheduledMessageGateway scheduledMessageGateway) {
+    public CreateScheduledMessageTask(ScheduledMessageGatewayInterface scheduledMessageGateway) {
         this.scheduledMessageGateway = scheduledMessageGateway;
     }
 

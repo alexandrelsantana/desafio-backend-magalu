@@ -27,7 +27,6 @@ public class ScheduledMessage extends Entity {
         this.statusScheduler = statusScheduler;
     }
 
-
     public static ScheduledMessage create(
             final LocalDateTime scheduledTime,
             final String message,
@@ -42,6 +41,10 @@ public class ScheduledMessage extends Entity {
         );
 
         scheduledMessage.validate(notification);
+        if (notification.hasError()){
+            scheduledMessage.cleanUuid();
+        }
+
         return scheduledMessage;
     }
 
@@ -68,6 +71,10 @@ public class ScheduledMessage extends Entity {
 
     public void changeStatus(StatusScheduler statusScheduler){
         this.statusScheduler = statusScheduler;
+    }
+
+    private void cleanUuid(){
+        this.uuid = null;
     }
 
 }

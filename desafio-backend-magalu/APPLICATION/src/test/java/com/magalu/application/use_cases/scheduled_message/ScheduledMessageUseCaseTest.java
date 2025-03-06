@@ -2,9 +2,9 @@ package com.magalu.application.use_cases.scheduled_message;
 
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
-import com.magalu.domain.ValueObject.message.MessageGateway;
+import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,8 +20,8 @@ class ScheduledMessageUseCaseTest {
     @Test
     @DisplayName("givenValidParameters_whenCallScheduledMessage_thenScheduledMessage")
     public void createScheduledMessageSuccess (){
-        ScheduledMessageGateway scheduledMessageGateway = mock(ScheduledMessageGateway.class);
-        MessageGateway messageGateway = mock(MessageGateway.class);
+        ScheduledMessageGatewayInterface scheduledMessageGateway = mock(ScheduledMessageGatewayInterface.class);
+        MessageGatewayInterface messageGateway = mock(MessageGatewayInterface.class);
         ScheduledMessageUseCase useCase = new ScheduledMessageUseCase(scheduledMessageGateway, messageGateway);
 
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
@@ -45,8 +45,8 @@ class ScheduledMessageUseCaseTest {
     @Test
     @DisplayName("givenInvalidParameters_whenNotCallScheduledMessage_thenReturnError")
     public void createScheduledMessageFailed (){
-        ScheduledMessageGateway scheduledMessageGateway = mock(ScheduledMessageGateway.class);
-        MessageGateway messageGateway = mock(MessageGateway.class);
+        ScheduledMessageGatewayInterface scheduledMessageGateway = mock(ScheduledMessageGatewayInterface.class);
+        MessageGatewayInterface messageGateway = mock(MessageGatewayInterface.class);
         ScheduledMessageUseCase useCase = new ScheduledMessageUseCase(scheduledMessageGateway, messageGateway);
 
         final LocalDateTime scheduledTime = null;

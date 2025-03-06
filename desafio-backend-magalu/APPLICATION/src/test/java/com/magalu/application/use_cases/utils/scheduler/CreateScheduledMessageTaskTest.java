@@ -2,7 +2,7 @@ package com.magalu.application.use_cases.utils.scheduler;
 
 import com.magalu.application.use_cases.scheduled_message.CreateScheduledMessageTask;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
-import com.magalu.domain.entity.scheduled_message.ScheduledMessageGateway;
+import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.validation.Notification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CreateScheduledMessageTaskTest {
 
     @Mock
-    ScheduledMessageGateway scheduledMessageGateway;
+    ScheduledMessageGatewayInterface scheduledMessageGateway;
 
     @Test
     @DisplayName("givenValidParameters_whenCallCreateMessageTask_thenScheduledMessage")
