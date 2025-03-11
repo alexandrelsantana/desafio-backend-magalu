@@ -6,6 +6,7 @@ import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
+import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCompleted;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerFailed;
 import com.magalu.domain.validation.Notification;
 
@@ -86,16 +87,19 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
 
     /**
      * Tarefa a ser executada pelo scheduler.
-     * Verifica se o status  ainda é diferente de cancelado antes de executar o envio da mensagem.
+     * Verifica se o status ainda é diferente de cancelado antes de executar o envio da mensagem.
+     * Atualiza o status com "Completed" no banco de dados.
      */
     private void sendMessage(ScheduledMessage entity) {
-        var currentStatus = scheduledMessageGateway.findById(entity.getUuid()).getStatusScheduler();
-        if (currentStatus instanceof StatusSchedulerCancelled){
-            return;
-        }
 
         try{
+            var currentStatus = scheduledMessageGateway.findById(entity.getUuid()).getStatusScheduler();
+            if (currentStatus instanceof StatusSchedulerCancelled){
+                return;
+            }
             messageGateway.send(entity.getMessage());
+            entity.changeStatus(StatusSchedulerCompleted.create());
+            scheduledMessageGateway.save(entity);
 
         } catch (Exception e) {
             notification.append(
