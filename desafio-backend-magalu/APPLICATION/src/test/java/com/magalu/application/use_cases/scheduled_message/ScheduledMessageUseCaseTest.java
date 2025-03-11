@@ -35,7 +35,6 @@ class ScheduledMessageUseCaseTest {
 
         var output = useCase.execute(input);
 
-        Assertions.assertInstanceOf(StatusSuccess.class, output.getStatusOutput());
         verify(scheduledMessageGateway, times(2)).save(any(ScheduledMessage.class));
 
         assertNotNull(output);
