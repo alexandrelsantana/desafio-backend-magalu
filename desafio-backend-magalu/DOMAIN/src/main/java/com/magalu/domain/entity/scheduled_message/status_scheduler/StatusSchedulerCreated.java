@@ -1,7 +1,7 @@
 package com.magalu.domain.entity.scheduled_message.status_scheduler;
 
 public class StatusSchedulerCreated extends StatusScheduler {
-    private static final String CREATED = "CREATED";
+    public static final String CREATED = "CREATED";
 
     private StatusSchedulerCreated(String status) {
         super(status);
