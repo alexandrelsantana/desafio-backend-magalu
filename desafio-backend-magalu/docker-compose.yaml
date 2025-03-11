@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9092:9092"
+    working_dir: /app
+    deploy:
+      replicas: 1
+    networks:
+      - scheduler-network
+
+networks:
+  scheduler-network:
+    name: scheduler-network
+    driver: bridge

@@ -1,0 +1,11 @@
+FROM postgres:17.4-alpine
+
+ENV POSTGRES_DB=db \
+    POSTGRES_USER=postgres \
+    POSTGRES_PASSWORD=12345
+
+# Expondo a porta 5433 para conexões externas
+EXPOSE 5432
+
+# Comando para iniciar o PostgreSQL na porta 5432
+CMD ["postgres", "-p", "5432"]

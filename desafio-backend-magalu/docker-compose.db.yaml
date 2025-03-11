@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: scheduler_db
+    ports:
+      - "54320:5432"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - scheduler-network
+
+networks:
+  scheduler-network:
+    name: scheduler-network
+    driver: bridge
