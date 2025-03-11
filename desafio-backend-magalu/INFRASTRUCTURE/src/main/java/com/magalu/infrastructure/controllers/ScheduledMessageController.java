@@ -1,10 +1,14 @@
 package com.magalu.infrastructure.controllers;
 
 import com.google.gson.Gson;
+import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageInput;
+import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageOutput;
 import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageUseCaseAbstract;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageInput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageOutput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCaseAbstract;
+import com.magalu.infrastructure.scheduled_message.models.CancelScheduledMessageRequest;
+import com.magalu.infrastructure.scheduled_message.models.CancelScheduledMessageResponse;
 import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageRequest;
 import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageResponse;
 import jakarta.validation.Valid;
@@ -57,6 +61,34 @@ public class ScheduledMessageController implements ScheduledMessageControllerAPI
 
         var response = ScheduledMessageResponse.createSuccess(
                 "Message scheduled",
+                output.getOutput(),
+                output.getNotification().getErrors(),
+                HttpStatus.OK.value(),
+                thisRoute);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/cancel-scheduler")
+    @Override
+    public ResponseEntity<?> cancelScheduler(CancelScheduledMessageRequest request) {
+        var thisRoute = ServletUriComponentsBuilder.fromCurrentRequest().build().getPath();
+        var input = new CancelScheduledMessageInput(
+                request.uuid()
+        );
+        CancelScheduledMessageOutput output = cancelScheduledMessageUseCase.execute(input);
+
+        if (output.hasError()){
+            var response = CancelScheduledMessageResponse.createFailed(
+                    "Message not Cancelled",
+                    output.getOutput(),
+                    output.getNotification().getErrors(),
+                    HttpStatus.BAD_REQUEST.value(),
+                    thisRoute);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        var response = ScheduledMessageResponse.createSuccess(
+                "Message Cancelled",
                 output.getOutput(),
                 output.getNotification().getErrors(),
                 HttpStatus.OK.value(),
