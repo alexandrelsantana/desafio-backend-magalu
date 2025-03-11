@@ -65,6 +65,20 @@ public class ScheduledMessage extends Entity {
         return scheduledMessage;
     }
 
+    public static ScheduledMessage create(
+            final String uuid,
+            final LocalDateTime scheduledTime,
+            final String message,
+            final String to,
+            final StatusScheduler statusScheduler){
+
+        return  new ScheduledMessage(
+                uuid,
+                scheduledTime,
+                new Message(message, to),
+                statusScheduler);
+    }
+
     public void validate(Notification notification){
         new SchedulerMessageValidator(notification).validate(this);
     }
