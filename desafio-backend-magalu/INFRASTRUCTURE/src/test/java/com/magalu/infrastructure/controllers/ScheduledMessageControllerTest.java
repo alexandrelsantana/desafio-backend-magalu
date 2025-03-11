@@ -37,7 +37,7 @@ public class ScheduledMessageControllerTest {
     @Test
     public void test2Return200() throws Exception {
 
-        String request = """            
+        String request = """
             {
                 "message": "Mensagem de Teste",
                 "to": "test@example.com",
@@ -55,7 +55,7 @@ public class ScheduledMessageControllerTest {
     @Test
     public void test2Return400() throws Exception {
 
-        String request = """            
+        String request = """
             {
                 "message": "Mensagem de Teste",
                 "to": "test@example.com",
