@@ -25,11 +25,9 @@ public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCase
     @Override
     public CancelScheduledMessageOutput execute(final CancelScheduledMessageInput input) {
         this.notification = Notification.createNotification();
-        final String id = input.id();
 
-        var scheduledMessage = scheduledMessageGateway.findById(id);
-
-        checkStatus(scheduledMessage);
+        ScheduledMessage scheduledMessage = getScheduledMessage(input);
+        hasError(() -> checkStatus(scheduledMessage));
         hasError(() -> cancelScheduled(scheduledMessage));
 
         return notification.hasError() ? createOutputFailed(scheduledMessage) : createOutputSuccess(scheduledMessage);
@@ -74,6 +72,27 @@ public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCase
                     e.getMessage()
             );
         }
+    }
+
+    private ScheduledMessage getScheduledMessage(CancelScheduledMessageInput input) {
+        ScheduledMessage scheduledMessage = null;
+        try {
+            scheduledMessage = scheduledMessageGateway.findById(input.id());
+
+        } catch (Exception e) {
+            notification.append(
+                    "Error when retrieve scheduled message in database",
+                    e.getMessage()
+            );
+        }
+
+        if (scheduledMessage == null){
+            notification.append(
+                    "Error when retrieve scheduled message in database",
+                    String.format("No data in database. uuid: %s", input.id())
+            );
+        }
+        return scheduledMessage;
     }
 
     private CancelScheduledMessageOutput createOutputFailed(ScheduledMessage scheduledMessage){

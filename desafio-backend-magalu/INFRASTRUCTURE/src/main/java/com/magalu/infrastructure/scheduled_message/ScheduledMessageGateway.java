@@ -2,12 +2,9 @@ package com.magalu.infrastructure.scheduled_message;
 
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.infrastructure.persistence.ScheduledMessageJpaEntity;
-import com.magalu.infrastructure.persistence.ScheduledMessageRepository;
 import com.magalu.infrastructure.mappers.SchedulerMessageMapper;
+import com.magalu.infrastructure.persistence.ScheduledMessageRepository;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class ScheduledMessageGateway implements ScheduledMessageGatewayInterface {
@@ -20,13 +17,8 @@ public class ScheduledMessageGateway implements ScheduledMessageGatewayInterface
 
     @Override
     public ScheduledMessage findById(String id) {
-        Optional<ScheduledMessageJpaEntity> byId = this.scheduledMessageRepository.findById(id);
-
-        if (byId.isEmpty()){
-            return null;
-        }
-
-        return SchedulerMessageMapper.toDomain(byId.get());
+        var scheduledMessage = this.scheduledMessageRepository.findById(id).map(SchedulerMessageMapper::toDomain);
+        return scheduledMessage.orElse(null);
     }
 
     @Override
