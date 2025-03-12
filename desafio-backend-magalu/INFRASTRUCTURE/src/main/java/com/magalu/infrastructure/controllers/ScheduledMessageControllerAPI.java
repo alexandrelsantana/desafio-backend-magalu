@@ -1,18 +1,18 @@
 package com.magalu.infrastructure.controllers;
 
 import com.magalu.infrastructure.scheduled_message.models.CancelScheduledMessageRequest;
-import com.magalu.infrastructure.scheduled_message.models.RetrieveScheduledMessageRequest;
 import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageRequest;
 import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 public interface ScheduledMessageControllerAPI {
@@ -220,6 +220,12 @@ public interface ScheduledMessageControllerAPI {
                     )
             )
     })
-    ResponseEntity<?> retrieveScheduler(@Valid @RequestBody RetrieveScheduledMessageRequest request);
-
+    ResponseEntity<?> retrieveScheduler(
+            @Valid
+            @Parameter(
+                    description = "UUID of the scheduled message",
+                    example = "70efeaf62baf45c1b28b9af8fe354223",
+                    required = true
+            )
+            @RequestParam String uuid);
 }

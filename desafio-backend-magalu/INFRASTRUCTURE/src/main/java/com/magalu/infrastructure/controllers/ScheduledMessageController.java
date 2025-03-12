@@ -13,12 +13,11 @@ import com.magalu.application.use_cases.scheduled_message.ScheduledMessageOutput
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCaseAbstract;
 import com.magalu.infrastructure.scheduled_message.models.*;
 import jakarta.validation.Valid;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
@@ -101,13 +100,11 @@ public class ScheduledMessageController implements ScheduledMessageControllerAPI
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/retrieve-scheduler")
+    @GetMapping("/retrieve-scheduler")
     @Override
-    public ResponseEntity<?> retrieveScheduler(RetrieveScheduledMessageRequest request) {
+    public ResponseEntity<?> retrieveScheduler(String uuid) {
         var thisRoute = ServletUriComponentsBuilder.fromCurrentRequest().build().getPath();
-        var input = new RetrieveScheduledMessageInput(
-                request.uuid()
-        );
+        var input = new RetrieveScheduledMessageInput(uuid);
         RetrieveScheduledMessageOutput output = retrieveScheduledMessageUseCase.execute(input);
 
         if (output.hasError()){
