@@ -5,6 +5,7 @@ import com.magalu.domain.entity.scheduled_message.status_scheduler.*;
 public enum Status {
 
     CREATED(StatusSchedulerCreated.CREATED),
+    COMPLETED(StatusSchedulerCompleted.COMPLETED),
     CANCELLED(StatusSchedulerCancelled.CANCELLED),
     SCHEDULED(StatusSchedulerScheduled.SCHEDULED),
     FAILED(StatusSchedulerFailed.FAILED);
