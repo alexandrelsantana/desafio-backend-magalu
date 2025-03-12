@@ -59,8 +59,11 @@ class ScheduledMessageTest {
         Assertions.assertEquals(message, entity.getMessage().getMessage());
 
         Assertions.assertEquals(
-                "Field 'scheduledTime' is empty",
+                "Field 'message' is empty",
                 notification.getErrors().get(1).getDescription());
+        Assertions.assertEquals(
+                "Field 'scheduledTime' is empty",
+                notification.getErrors().get(2).getDescription());
         Assertions.assertEquals(
                 "Field 'to' is empty",
                 notification.getErrors().get(0).getDescription());
