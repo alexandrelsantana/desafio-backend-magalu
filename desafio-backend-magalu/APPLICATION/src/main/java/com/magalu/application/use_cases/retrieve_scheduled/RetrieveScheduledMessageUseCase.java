@@ -46,10 +46,19 @@ public class RetrieveScheduledMessageUseCase extends RetrieveScheduledMessageUse
     private void getScheduledMessage(RetrieveScheduledMessageInput input) {
         try {
             scheduledMessage = scheduledMessageGateway.findById(input.id());
+
         } catch (Exception e) {
             notification.append(
                     "Error when retrieve scheduled message in database",
                     e.getMessage()
+            );
+            return;
+        }
+
+        if (scheduledMessage == null){
+            notification.append(
+                    "Error when retrieve scheduled message in database",
+                    String.format("No data in database. uuid: %s", input.id())
             );
         }
     }
