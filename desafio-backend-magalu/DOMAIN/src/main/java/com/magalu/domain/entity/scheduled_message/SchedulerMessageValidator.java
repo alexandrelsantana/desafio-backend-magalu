@@ -3,6 +3,8 @@ package com.magalu.domain.entity.scheduled_message;
 import com.magalu.domain.validation.Notification;
 import com.magalu.domain.validation.Validator;
 
+import java.time.LocalDateTime;
+
 public class SchedulerMessageValidator extends Validator<ScheduledMessage> {
 
     protected SchedulerMessageValidator(
@@ -14,8 +16,6 @@ public class SchedulerMessageValidator extends Validator<ScheduledMessage> {
     public void validate(ScheduledMessage entity) {
         final String to = entity.getMessage().getTo();
         final String message = entity.getMessage().getTo();
-
-        //todo adicionar validações de data no futuro, data vazia, ...
 
         if(to == null || to.isEmpty()){
             notification.append(
@@ -35,6 +35,13 @@ public class SchedulerMessageValidator extends Validator<ScheduledMessage> {
             notification.append(
                     "Field 'scheduledTime' is empty",
                     "The 'scheduledTime' field is required."
+            );
+        }
+
+        if(entity.getScheduledTime().isBefore(LocalDateTime.now())){
+            notification.append(
+                    "Field is not in the future",
+                    "The 'scheduledTime' must be in the future"
             );
         }
 
