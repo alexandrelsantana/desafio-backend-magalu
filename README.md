@@ -14,8 +14,10 @@
 # Projeto desafio-backend-magalu
 ## 📌 Objetivo  <a id="objetivo"></a>
 <h4>
-Esse projeto tem por objetivo resolver a um suposto desafio da Magalu que encontrei alguns desenvolvedores propondo soluções.
-Como não identifiquei ninguém que tenha resolvido com clean architeture, optei por usar esse padrão de design para resolver o desafio.
+Esse projeto tem por objetivo resolver a um suposto desafio de processo seletivo para desenvolvedor da empresa Magalu.
+Encontrei pela internet a vários desenvolvedores resolvendo esse desafio, mas sempre utilizando MVC e Spring Scheduler.
+Como não identifiquei ninguém que tenha resolvido com arquitetura hexagonal e DDD, optei por usar esse padrão de design para resolvê-lo.
+Ainda faltam alguns ajustes em testes na camada de infraestrutura e reagendar os schedulers quando a aplicação é 'reestartada', mas em breve os farei.
 </h4>
 
 ## 📌 O DESAFIO  <a id="desafio"></a>
