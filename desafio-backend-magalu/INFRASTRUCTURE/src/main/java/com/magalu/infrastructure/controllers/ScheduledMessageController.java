@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageInput;
 import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageOutput;
 import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageUseCaseAbstract;
+import com.magalu.application.use_cases.retrieve_scheduled.RetrieveScheduledMessageInput;
+import com.magalu.application.use_cases.retrieve_scheduled.RetrieveScheduledMessageOutput;
+import com.magalu.application.use_cases.retrieve_scheduled.RetrieveScheduledMessageUseCase;
+import com.magalu.application.use_cases.retrieve_scheduled.RetrieveScheduledMessageUseCaseAbstract;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageInput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageOutput;
 import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCaseAbstract;
-import com.magalu.infrastructure.scheduled_message.models.CancelScheduledMessageRequest;
-import com.magalu.infrastructure.scheduled_message.models.CancelScheduledMessageResponse;
-import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageRequest;
-import com.magalu.infrastructure.scheduled_message.models.ScheduledMessageResponse;
+import com.magalu.infrastructure.scheduled_message.models.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,16 @@ public class ScheduledMessageController implements ScheduledMessageControllerAPI
 
     final ScheduledMessageUseCaseAbstract scheduledMessageUseCase;
     final CancelScheduledMessageUseCaseAbstract cancelScheduledMessageUseCase;
+    final RetrieveScheduledMessageUseCaseAbstract retrieveScheduledMessageUseCase;
 
     public ScheduledMessageController(
             ScheduledMessageUseCaseAbstract scheduledMessageUseCase,
-            CancelScheduledMessageUseCaseAbstract cancelScheduledMessageUseCase) {
+            CancelScheduledMessageUseCaseAbstract cancelScheduledMessageUseCase,
+            RetrieveScheduledMessageUseCaseAbstract retrieveScheduledMessageUseCase
+    ) {
         this.scheduledMessageUseCase = scheduledMessageUseCase;
         this.cancelScheduledMessageUseCase = cancelScheduledMessageUseCase;
+        this.retrieveScheduledMessageUseCase = retrieveScheduledMessageUseCase;
     }
 
     @PostMapping("/create-scheduler")
@@ -89,6 +94,34 @@ public class ScheduledMessageController implements ScheduledMessageControllerAPI
 
         var response = ScheduledMessageResponse.createSuccess(
                 "Message Cancelled",
+                output.getOutput(),
+                output.getNotification().getErrors(),
+                HttpStatus.OK.value(),
+                thisRoute);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/retrieve-scheduler")
+    @Override
+    public ResponseEntity<?> retrieveScheduler(RetrieveScheduledMessageRequest request) {
+        var thisRoute = ServletUriComponentsBuilder.fromCurrentRequest().build().getPath();
+        var input = new RetrieveScheduledMessageInput(
+                request.uuid()
+        );
+        RetrieveScheduledMessageOutput output = retrieveScheduledMessageUseCase.execute(input);
+
+        if (output.hasError()){
+            var response = RetrieveScheduledMessageResponse.createFailed(
+                    "Message not retrieve",
+                    output.getOutput(),
+                    output.getNotification().getErrors(),
+                    HttpStatus.BAD_REQUEST.value(),
+                    thisRoute);
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        var response = RetrieveScheduledMessageResponse.createSuccess(
+                "Message retrieve",
                 output.getOutput(),
                 output.getNotification().getErrors(),
                 HttpStatus.OK.value(),
