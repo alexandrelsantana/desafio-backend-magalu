@@ -14,36 +14,29 @@ public class SchedulerMessageValidator extends Validator<ScheduledMessage> {
 
     @Override
     public void validate(ScheduledMessage entity) {
-        final String to = entity.getMessage().getTo();
-        final String message = entity.getMessage().getTo();
+        final var scheduledTime = entity.getScheduledTime();
+        final var message = entity.getMessage();
 
-        if(to == null || to.isEmpty()){
+        if(message == null){
             notification.append(
-                    "Field 'to' is empty",
-                    "The 'to' field is required."
-            );
-        }
-
-        if(to == null || message.isEmpty()){
-            notification.append(
-                    "Field 'message' is empty",
+                    "Field 'message' is null",
                     "The 'message' field is required."
             );
         }
 
-        if(entity.getScheduledTime() == null){
+        if(scheduledTime == null){
             notification.append(
                     "Field 'scheduledTime' is empty",
                     "The 'scheduledTime' field is required."
             );
+            return;
         }
 
-        if(entity.getScheduledTime().isBefore(LocalDateTime.now())){
+        if(scheduledTime.isBefore(LocalDateTime.now())){
             notification.append(
                     "Field is not in the future",
                     "The 'scheduledTime' must be in the future"
             );
         }
-
     }
 }

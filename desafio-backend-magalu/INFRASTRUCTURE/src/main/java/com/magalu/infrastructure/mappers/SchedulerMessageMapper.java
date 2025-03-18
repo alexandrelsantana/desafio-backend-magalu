@@ -1,5 +1,6 @@
 package com.magalu.infrastructure.mappers;
 
+import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.infrastructure.persistence.ScheduledMessageJpaEntity;
 import com.magalu.infrastructure.persistence.Status;
@@ -11,8 +12,8 @@ public abstract class SchedulerMessageMapper {
                 entityDomain.getUuid(),
                 entityDomain.getScheduledTime(),
                 Status.getStatus(entityDomain.getStatusScheduler().getStatus()),
-                entityDomain.getMessage().getMessage(),
-                entityDomain.getMessage().getTo()
+                entityDomain.getMessageText(),
+                entityDomain.getMessageTo()
         );
     }
 
@@ -20,8 +21,7 @@ public abstract class SchedulerMessageMapper {
         return  ScheduledMessage.create(
                 entityJpa.getUUID(),
                 entityJpa.getScheduledTime(),
-                entityJpa.getMessage(),
-                entityJpa.getTo(),
+                Message.create(entityJpa.getMessage(), entityJpa.getTo()),
                 StatusSchedulerFactory.getStatus(entityJpa.getStatusScheduler().name())
         );
     }

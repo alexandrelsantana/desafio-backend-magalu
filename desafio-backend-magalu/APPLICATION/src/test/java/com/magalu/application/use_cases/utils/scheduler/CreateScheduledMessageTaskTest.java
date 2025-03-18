@@ -1,6 +1,7 @@
 package com.magalu.application.use_cases.utils.scheduler;
 
 import com.magalu.application.use_cases.scheduled_message.CreateScheduledMessageTask;
+import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.validation.Notification;
@@ -46,8 +47,7 @@ class CreateScheduledMessageTaskTest {
 
         final var scheduledMessage = ScheduledMessage.create(
                 targetTime,
-                MESSAGE,
-                to,
+                Message.create(MESSAGE, to, notification),
                 notification
         );
 

@@ -29,14 +29,13 @@ public class ScheduledMessage extends Entity {
 
     public static ScheduledMessage create(
             final LocalDateTime scheduledTime,
-            final String message,
-            final String to,
+            final Message message,
             final Notification notification){
 
         ScheduledMessage scheduledMessage = new ScheduledMessage(
                 uuid(),
                 scheduledTime,
-                new Message(message, to),
+                message,
                 StatusSchedulerCreated.create()
         );
 
@@ -58,7 +57,7 @@ public class ScheduledMessage extends Entity {
         ScheduledMessage scheduledMessage = new ScheduledMessage(
                 uuid,
                 scheduledTime,
-                new Message(message, to),
+                Message.create(message, to, notification),
                 StatusSchedulerCreated.create());
 
         scheduledMessage.validate(notification);
@@ -68,14 +67,13 @@ public class ScheduledMessage extends Entity {
     public static ScheduledMessage create(
             final String uuid,
             final LocalDateTime scheduledTime,
-            final String message,
-            final String to,
+            final Message message,
             final StatusScheduler statusScheduler){
 
         return  new ScheduledMessage(
                 uuid,
                 scheduledTime,
-                new Message(message, to),
+                message,
                 statusScheduler);
     }
 
@@ -91,4 +89,11 @@ public class ScheduledMessage extends Entity {
         this.uuid = null;
     }
 
+    public String getMessageTo(){
+        return this.message.getText();
+    }
+
+    public String getMessageText(){
+        return this.message.getTo();
+    }
 }
