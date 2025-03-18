@@ -2,6 +2,7 @@ package com.magalu.application.use_cases.scheduled_message;
 
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
+import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
@@ -37,8 +38,7 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
 
         final var scheduledMessage = ScheduledMessage.create(
                 input.scheduledTime(),
-                input.message(),
-                input.to(),
+                Message.create(input.message(), input.to(), notification),
                 notification
         );
         hasError(() -> saveScheduledMessageInDatabase(scheduledMessage));
