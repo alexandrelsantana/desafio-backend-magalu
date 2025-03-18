@@ -78,8 +78,11 @@ class ScheduledUseCaseTest {
                 "Field 'to' is empty",
                 output.getNotification().getErrors().get(0).getDescription());
         Assertions.assertEquals(
-                "Field 'scheduledTime' is empty",
+                "Field 'message' is empty",
                 output.getNotification().getErrors().get(1).getDescription());
+        Assertions.assertEquals(
+                "Field 'scheduledTime' is empty",
+                output.getNotification().getErrors().get(2).getDescription());
 
     }
 }

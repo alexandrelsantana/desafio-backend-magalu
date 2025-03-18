@@ -1,11 +1,8 @@
 package com.magalu.application.use_cases.retrieve_scheduled;
 
-import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageInput;
-import com.magalu.application.use_cases.cancel_scheduled_message.CancelScheduledMessageUseCase;
-import com.magalu.application.use_cases.scheduled_message.ScheduledMessageInput;
-import com.magalu.application.use_cases.scheduled_message.ScheduledMessageUseCase;
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
+import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
@@ -21,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -45,8 +42,7 @@ class RetrieveScheduledMessageUseCaseTest {
         final Notification notification = Notification.createNotification();
         var schedulerMessage = ScheduledMessage.create(
                 scheduledTime,
-                message,
-                to,
+                Message.create(message, to, notification),
                 notification
         );
         schedulerMessage.changeStatus(StatusSchedulerScheduled.create());

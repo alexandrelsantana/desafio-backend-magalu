@@ -62,7 +62,8 @@ class ScheduledMessageUseCaseTest {
         assertNotNull(output);
         Assertions.assertInstanceOf(StatusFailed.class, output.getStatusOutput());
         Assertions.assertEquals("Field 'to' is empty", output.getNotification().getErrors().get(0).getDescription());
-        Assertions.assertEquals("Field 'scheduledTime' is empty", output.getNotification().getErrors().get(1).getDescription());
+        Assertions.assertEquals("Field 'message' is empty", output.getNotification().getErrors().get(1).getDescription());
+        Assertions.assertEquals("Field 'scheduledTime' is empty", output.getNotification().getErrors().get(2).getDescription());
         verify(scheduledMessageGateway, times(0)).save(any(ScheduledMessage.class));
 
     }

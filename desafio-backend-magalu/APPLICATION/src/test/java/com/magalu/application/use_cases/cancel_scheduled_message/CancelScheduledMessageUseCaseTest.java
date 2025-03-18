@@ -2,6 +2,7 @@ package com.magalu.application.use_cases.cancel_scheduled_message;
 
 import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
+import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
@@ -29,8 +30,7 @@ class CancelScheduledMessageUseCaseTest {
         final Notification notification = Notification.createNotification();
         var schedulerMessage = ScheduledMessage.create(
                 scheduledTime,
-                message,
-                to,
+                Message.create(message, to, notification),
                 notification
         );
         schedulerMessage.changeStatus(StatusSchedulerScheduled.create());
@@ -59,8 +59,7 @@ class CancelScheduledMessageUseCaseTest {
         final Notification notification = Notification.createNotification();
         var schedulerMessage = ScheduledMessage.create(
                 scheduledTime,
-                message,
-                to,
+                Message.create(message, to, notification),
                 notification
         );
         schedulerMessage.changeStatus(StatusSchedulerCancelled.create());
@@ -91,8 +90,7 @@ class CancelScheduledMessageUseCaseTest {
         final Notification notification = Notification.createNotification();
         var schedulerMessage = ScheduledMessage.create(
                 scheduledTime,
-                message,
-                to,
+                Message.create(message, to, notification),
                 notification
         );
         schedulerMessage.changeStatus(StatusSchedulerCompleted.create());
