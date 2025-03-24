@@ -3,7 +3,7 @@ package com.magalu.application.use_cases.scheduled_message;
 import com.magalu.application.use_cases.utils.scheduler.Scheduler;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 
 import java.util.concurrent.ScheduledFuture;
 
@@ -30,7 +30,7 @@ public class CreateScheduledMessageTask extends Scheduler {
     }
 
     private void updateStatus(ScheduledMessage entity) {
-        entity.changeStatus(StatusSchedulerScheduled.create());
+        entity.changeStatus(StatusScheduler.SCHEDULED);
         scheduledMessageGateway.save(entity);
     }
 }

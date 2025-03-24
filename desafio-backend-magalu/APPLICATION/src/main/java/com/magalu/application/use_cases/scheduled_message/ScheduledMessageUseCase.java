@@ -6,9 +6,7 @@ import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCompleted;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerFailed;
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 import com.magalu.domain.validation.Notification;
 
 import java.util.Objects;
@@ -93,12 +91,10 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
     private void sendMessage(ScheduledMessage entity) {
 
         try{
-            var currentStatus = scheduledMessageGateway.findById(entity.getUuid()).getStatusScheduler();
-            if (currentStatus instanceof StatusSchedulerCancelled){
-                return;
-            }
+            if (scheduledMessageGateway.findById(entity.getUuid()).isCanceled()) return;
+
             messageGateway.send(entity.getMessage());
-            entity.changeStatus(StatusSchedulerCompleted.create());
+            entity.changeStatus(StatusScheduler.COMPLETED);
             scheduledMessageGateway.save(entity);
 
         } catch (Exception e) {
@@ -110,7 +106,7 @@ public class ScheduledMessageUseCase extends ScheduledMessageUseCaseAbstract {
     }
 
     private ScheduledMessageOutput createOutputFailed(ScheduledMessage scheduledMessage){
-        scheduledMessage.changeStatus(StatusSchedulerFailed.create());
+        scheduledMessage.changeStatus(StatusScheduler.CREATED);
         return ScheduledMessageOutput.create(
                 scheduledMessage,
                 StatusFailed.create(),

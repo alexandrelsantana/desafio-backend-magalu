@@ -2,8 +2,6 @@ package com.magalu.domain.entity.scheduled_message;
 
 import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.Entity;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusScheduler;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCreated;
 import com.magalu.domain.validation.Notification;
 import lombok.Getter;
 
@@ -36,7 +34,7 @@ public class ScheduledMessage extends Entity {
                 uuid(),
                 scheduledTime,
                 message,
-                StatusSchedulerCreated.create()
+                StatusScheduler.CREATED
         );
 
         scheduledMessage.validate(notification);
@@ -58,7 +56,7 @@ public class ScheduledMessage extends Entity {
                 uuid,
                 scheduledTime,
                 Message.create(message, to, notification),
-                StatusSchedulerCreated.create());
+                StatusScheduler.CREATED);
 
         scheduledMessage.validate(notification);
         return scheduledMessage;
@@ -83,6 +81,14 @@ public class ScheduledMessage extends Entity {
 
     public void changeStatus(StatusScheduler statusScheduler){
         this.statusScheduler = statusScheduler;
+    }
+
+    public boolean isCanceled(){
+        return this.statusScheduler == StatusScheduler.CANCELLED;
+    }
+
+    public boolean isScheduled(){
+        return this.statusScheduler == StatusScheduler.SCHEDULED;
     }
 
     private void cleanUuid(){

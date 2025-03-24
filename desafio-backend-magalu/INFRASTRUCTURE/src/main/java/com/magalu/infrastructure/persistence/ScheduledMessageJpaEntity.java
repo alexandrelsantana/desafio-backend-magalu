@@ -1,5 +1,6 @@
 package com.magalu.infrastructure.persistence;
 
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -25,7 +26,7 @@ public class ScheduledMessageJpaEntity {
 
     @Column(name="status_scheduler")
     @Enumerated(EnumType.STRING)
-    public Status statusScheduler;
+    public StatusScheduler statusScheduler;
 
     public ScheduledMessageJpaEntity() {
     }
@@ -33,7 +34,7 @@ public class ScheduledMessageJpaEntity {
     public ScheduledMessageJpaEntity(
             String UUID,
             LocalDateTime scheduledTime,
-            Status statusScheduler,
+            StatusScheduler statusScheduler,
             String message,
             String to) {
         this.UUID = UUID;

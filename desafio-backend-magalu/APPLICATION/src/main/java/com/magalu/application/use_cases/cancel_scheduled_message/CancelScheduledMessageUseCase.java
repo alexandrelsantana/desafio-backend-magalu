@@ -4,8 +4,7 @@ import com.magalu.application.use_cases.utils.output.StatusFailed;
 import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 import com.magalu.domain.validation.Notification;
 
 public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCaseAbstract {
@@ -45,7 +44,7 @@ public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCase
 
     private void checkStatus(final ScheduledMessage scheduledMessage){
 
-        if (scheduledMessage.getStatusScheduler() instanceof StatusSchedulerCancelled){
+        if (scheduledMessage.isCanceled()){
             notification.append(
                     "Error when cancel scheduled",
                     "Scheduled message is already cancelled"
@@ -53,7 +52,7 @@ public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCase
             return;
         }
 
-        if (!(scheduledMessage.getStatusScheduler() instanceof StatusSchedulerScheduled)){
+        if (!(scheduledMessage.isScheduled())){
             notification.append(
                     "Error when cancel scheduled",
                     "The scheduled message cannot be canceled as it is not scheduled"
@@ -64,7 +63,7 @@ public class CancelScheduledMessageUseCase extends CancelScheduledMessageUseCase
 
     private void cancelScheduled(final ScheduledMessage scheduledMessage){
         try{
-            scheduledMessage.changeStatus(StatusSchedulerCancelled.create());
+            scheduledMessage.changeStatus(StatusScheduler.CANCELLED);
             scheduledMessageGateway.save(scheduledMessage);
         }catch (Exception e){
             notification.append(

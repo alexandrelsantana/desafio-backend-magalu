@@ -5,9 +5,7 @@ import com.magalu.application.use_cases.utils.output.StatusSuccess;
 import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCancelled;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerCompleted;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 import com.magalu.domain.validation.Notification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +31,7 @@ class CancelScheduledMessageUseCaseTest {
                 Message.create(message, to, notification),
                 notification
         );
-        schedulerMessage.changeStatus(StatusSchedulerScheduled.create());
+        schedulerMessage.changeStatus(StatusScheduler.SCHEDULED);
         final String id = schedulerMessage.getUuid();
 
         when(scheduledMessageGateway.findById(id)).thenReturn(schedulerMessage);
@@ -62,7 +60,7 @@ class CancelScheduledMessageUseCaseTest {
                 Message.create(message, to, notification),
                 notification
         );
-        schedulerMessage.changeStatus(StatusSchedulerCancelled.create());
+        schedulerMessage.changeStatus(StatusScheduler.CANCELLED);
         final String id = schedulerMessage.getUuid();
 
         when(scheduledMessageGateway.findById(id)).thenReturn(schedulerMessage);
@@ -93,7 +91,7 @@ class CancelScheduledMessageUseCaseTest {
                 Message.create(message, to, notification),
                 notification
         );
-        schedulerMessage.changeStatus(StatusSchedulerCompleted.create());
+        schedulerMessage.changeStatus(StatusScheduler.COMPLETED);
         final String id = schedulerMessage.getUuid();
 
         when(scheduledMessageGateway.findById(id)).thenReturn(schedulerMessage);

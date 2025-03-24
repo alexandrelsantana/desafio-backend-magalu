@@ -16,7 +16,7 @@ class ScheduledMessageTest {
         final LocalDateTime scheduledTime = LocalDateTime.now().plusSeconds(5);
         final String message = "Message";
         final String to = "test@test.com";
-        final String status = "CREATED";
+        final StatusScheduler status = StatusScheduler.CREATED;
 
         Notification notification = Notification.createNotification();
 
@@ -32,7 +32,7 @@ class ScheduledMessageTest {
         Assertions.assertEquals(scheduledTime, entity.getScheduledTime());
         Assertions.assertEquals(message, entity.getMessage().getText());
         Assertions.assertEquals(to, entity.getMessage().getTo());
-        Assertions.assertEquals(status, entity.getStatusScheduler().getStatus());
+        Assertions.assertEquals(status, entity.getStatusScheduler());
 
         new SchedulerMessageValidator(notification).validate(entity);
         Assertions.assertFalse(notification.hasError());

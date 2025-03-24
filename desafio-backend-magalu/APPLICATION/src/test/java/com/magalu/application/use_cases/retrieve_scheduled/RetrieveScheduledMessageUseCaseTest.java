@@ -6,7 +6,7 @@ import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.ValueObject.message.MessageGatewayInterface;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessageGatewayInterface;
-import com.magalu.domain.entity.scheduled_message.status_scheduler.StatusSchedulerScheduled;
+import com.magalu.domain.entity.scheduled_message.StatusScheduler;
 import com.magalu.domain.validation.Notification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -45,7 +45,7 @@ class RetrieveScheduledMessageUseCaseTest {
                 Message.create(message, to, notification),
                 notification
         );
-        schedulerMessage.changeStatus(StatusSchedulerScheduled.create());
+        schedulerMessage.changeStatus(StatusScheduler.SCHEDULED);
         final String id = schedulerMessage.getUuid();
 
         when(scheduledMessageGateway.findById(id)).thenReturn(schedulerMessage);
