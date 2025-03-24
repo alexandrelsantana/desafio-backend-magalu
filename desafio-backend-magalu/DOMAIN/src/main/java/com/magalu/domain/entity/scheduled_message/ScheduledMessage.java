@@ -96,10 +96,10 @@ public class ScheduledMessage extends Entity {
     }
 
     public String getMessageTo(){
-        return this.message.getText();
+        return this.message.getTo();
     }
 
     public String getMessageText(){
-        return this.message.getTo();
+        return this.message.getText();
     }
 }
