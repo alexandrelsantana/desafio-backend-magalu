@@ -8,7 +8,7 @@ public class Message {
     private final String text;
     private final String to;
 
-    private Message(String text, String to) {
+    public Message(String text, String to) {
         this.text = text;
         this.to = to;
     }

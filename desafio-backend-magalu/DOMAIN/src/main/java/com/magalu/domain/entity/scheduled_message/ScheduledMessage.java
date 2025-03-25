@@ -14,7 +14,7 @@ public class ScheduledMessage extends Entity {
     private final Message message;
     public StatusScheduler statusScheduler;
 
-    private ScheduledMessage(
+    public ScheduledMessage(
             final String uuid,
             final LocalDateTime scheduledTime,
             final Message message,

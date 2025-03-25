@@ -1,26 +1,20 @@
 package com.magalu.infrastructure.mappers;
 
-import com.magalu.domain.ValueObject.message.Message;
 import com.magalu.domain.entity.scheduled_message.ScheduledMessage;
 import com.magalu.infrastructure.persistence.ScheduledMessageJpaEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public abstract class ScheduledMessageMapper {
-    public static ScheduledMessageJpaEntity fromDomain(ScheduledMessage entityDomain){
-        return new ScheduledMessageJpaEntity(
-                entityDomain.getUuid(),
-                entityDomain.getScheduledTime(),
-                entityDomain.getStatusScheduler(),
-                entityDomain.getMessageText(),
-                entityDomain.getMessageTo()
-        );
-    }
+@Mapper(componentModel = "spring")
+public interface ScheduledMessageMapper {
 
-    public static ScheduledMessage toDomain(ScheduledMessageJpaEntity entityJpa){
-        return  ScheduledMessage.create(
-                entityJpa.getUUID(),
-                entityJpa.getScheduledTime(),
-                Message.create(entityJpa.getMessage(), entityJpa.getTo()),
-                entityJpa.getStatusScheduler()
-        );
-    }
+    @Mapping(source = "message", target = "message.text")
+    @Mapping(source = "to", target = "message.to")
+    @Mapping(source = "UUID", target = "uuid")
+    ScheduledMessage toDomain(ScheduledMessageJpaEntity scheduledMessageJpaEntity);
+
+    @Mapping(source = "message.text", target = "message")
+    @Mapping(source = "message.to", target = "to")
+    @Mapping(source = "uuid", target = "UUID")
+    ScheduledMessageJpaEntity toJpaEntity(ScheduledMessage scheduledMessage);
 }
